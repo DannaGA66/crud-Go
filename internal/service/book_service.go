@@ -6,24 +6,25 @@ import (
 	"errors"
 )
 
-type Logger interface {
-	log()
-}
 type Service struct {
-	store  store.Store
-	logger Logger
+	store store.Store
 }
 
 func New(s store.Store) *Service {
 	return &Service{
 		store: s,
-		//looger: nil,
 	}
 }
 
 func (s *Service) GetAllBooks() ([]*model.Book, error) {
-	return s.store.GetAll()
+	books, err := s.store.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+	return books, nil
 }
+
 func (s *Service) GetBookByID(id int) (*model.Book, error) {
 	return s.store.GetByID(id)
 }
