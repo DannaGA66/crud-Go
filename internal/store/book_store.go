@@ -22,7 +22,7 @@ func New(db *sql.DB) Store {
 }
 
 func (s *store) GetAll() ([]*model.Book, error) {
-	q := `SELECT id, title, author FORM books`
+	q := `SELECT id, title, author FROM books`
 
 	rows, err := s.db.Query(q)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *store) GetAll() ([]*model.Book, error) {
 }
 
 func (s *store) GetByID(id int) (*model.Book, error) {
-	q := `Slelect id, title, author FROM books Where id = ?`
+	q := `SELECT id, title, author FROM books WHERE id = ?`
 	b := model.Book{}
 	err := s.db.QueryRow(q, id).Scan(&b.ID, &b.Title, &b.Author)
 
@@ -54,7 +54,7 @@ func (s *store) GetByID(id int) (*model.Book, error) {
 }
 
 func (s *store) Create(book *model.Book) (*model.Book, error) {
-	q := `INSERT INTO TABLE books(titlte, author) VALUES(?,?)`
+	q := `INSERT INTO books(title, author) VALUES(?,?)`
 	resp, err := s.db.Exec(q, book.Title, book.Author)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (s *store) Create(book *model.Book) (*model.Book, error) {
 }
 
 func (s *store) Update(id int, book *model.Book) (*model.Book, error) {
-	q := `UPDATE books SET title = ?, author = ?, WHERE id = ?`
+	q := `UPDATE books SET title = ?, author = ? WHERE id = ?`
 	_, err := s.db.Exec(q, book.Title, book.Author, id)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (s *store) Update(id int, book *model.Book) (*model.Book, error) {
 
 func (s *store) Delete(id int) error {
 	q := `DELETE from books WHERE id = ?`
-	_, err := s.db.Exec(q)
+	_, err := s.db.Exec(q, id)
 	if err != nil {
 		return err
 	}

@@ -19,7 +19,7 @@ func New(s *service.Service) *BookHandler {
 	}
 }
 
-func (h *BookHandler) handleBooks(w http.ResponseWriter, r *http.Request) {
+func (h *BookHandler) HandleBooks(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		books, err := h.service.GetAllBooks()
@@ -51,8 +51,8 @@ func (h *BookHandler) handleBooks(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *BookHandler) handleBookByID(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/book/")
+func (h *BookHandler) HandleBookByID(w http.ResponseWriter, r *http.Request) {
+	idStr := strings.TrimPrefix(r.URL.Path, "/books/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "no lo encontre", http.StatusBadRequest)

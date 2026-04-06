@@ -30,7 +30,7 @@ func (s *Service) GetBookByID(id int) (*model.Book, error) {
 }
 func (s *Service) CreateBook(book model.Book) (*model.Book, error) {
 	if book.Title == " " {
-		return nil, errors.New("Escriba el titulo")
+		return nil, errors.New("Escriba el titulo del libro")
 	}
 	return s.store.Create(&book)
 }
